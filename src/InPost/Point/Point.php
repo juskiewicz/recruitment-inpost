@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\InPost\Point;
 
-class Point implements \JsonSerializable
+class Point
 {
     public function __construct(
         public string $name,
         public string $address
     ) {}
 
-    public function jsonSerialize(): array
+    public function toArray(): array
     {
         return [
             'name' => $this->name,

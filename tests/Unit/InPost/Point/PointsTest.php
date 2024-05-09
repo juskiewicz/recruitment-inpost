@@ -30,4 +30,62 @@ class PointsTest extends TestCase
         // Then
         $this->assertInstanceOf(Points::class, $points);
     }
+
+    #[Test]
+    public function shouldAddPointToPointsCollection(): void
+    {
+        // Given
+        $meta = new Meta(20, 1, 25, 1);
+        $point1 = new Point('PLW01N', 'Szarotkowa 21');
+        $points = Points::of($meta, $point1);
+        $point2 = new Point('PLW02N', 'Szarotkowa 22');
+
+        // When
+        $updatedPoints = $points->add($point2);
+
+        // Then
+        $this->assertInstanceOf(Points::class, $updatedPoints);
+        $this->assertCount(2, $updatedPoints->items->toArray());
+    }
+
+    #[Test]
+    public function shouldThrowTypeErrorWhenAddingNonPointObject(): void
+    {
+        // Given
+        $meta = new Meta(20, 1, 25, 1);
+        $point1 = new Point('PLW01N', 'Szarotkowa 21');
+        $points = Points::of($meta, $point1);
+        $wrongType = new \stdClass();
+
+        // Then
+        $this->expectException(\TypeError::class);
+
+        // When
+        $points->add($wrongType);
+    }
+
+    #[Test]
+    public function shouldConvertPointsToArray(): void
+    {
+        // Given
+        $meta = new Meta(20, 1, 25, 1);
+        $point1 = new Point('PLW01N', 'Szarotkowa 21');
+        $point2 = new Point('PLW02N', 'Szarotkowa 22');
+        $points = Points::of($meta, $point1, $point2);
+
+        // Expected array
+        $expectedArray = [
+            'items' => [
+                ['name' => 'PLW01N', 'address' => 'Szarotkowa 21'],
+                ['name' => 'PLW02N', 'address' => 'Szarotkowa 22']
+            ],
+            'meta' => ['count' => 20, 'page' => 1, 'perPage' => 25, 'totalPages' => 1]
+        ];
+
+        // When
+        $resultArray = $points->toArray();
+
+        // Then
+        $this->assertEquals($expectedArray, $resultArray);
+    }
 }

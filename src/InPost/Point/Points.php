@@ -7,7 +7,7 @@ namespace App\InPost\Point;
 use App\InPost\Shared\Meta;
 use Munus\Collection\GenericList;
 
-class Points implements \JsonSerializable
+class Points
 {
     /**
      * @param GenericList<Point> $items
@@ -27,16 +27,8 @@ class Points implements \JsonSerializable
     public function toArray(): array
     {
         return [
-            'items' => $this->items->map(fn(Point $point) => $point->jsonSerialize())->toArray(),
-            'meta' => $this->meta->jsonSerialize(),
-        ];
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'items' => $this->items->map(fn(Point $point) => $point->jsonSerialize())->toArray(),
-            'meta' => $this->meta->jsonSerialize(),
+            'items' => $this->items->map(fn(Point $point) => $point->toArray())->toArray(),
+            'meta' => $this->meta->toArray(),
         ];
     }
 }

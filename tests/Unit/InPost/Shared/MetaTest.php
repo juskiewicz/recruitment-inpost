@@ -27,4 +27,21 @@ class MetaTest extends TestCase
         // Then
         $this->assertInstanceOf(Meta::class, $meta);
     }
+
+    #[Test]
+    public function shouldCorrectlyConvertPointObjectToArray(): void
+    {
+        // Given
+        $count = 491;
+        $page = 1;
+        $perPage = 25;
+        $totalPages = 20;
+        $meta = new Meta($count, $page, $perPage, $totalPages);
+
+        // When
+        $resultArray = $meta->toArray();
+
+        // Then
+        $this->assertEquals(['count' => $count, 'page' => $page, 'perPage' => $perPage, 'totalPages' => $totalPages], $resultArray);
+    }
 }

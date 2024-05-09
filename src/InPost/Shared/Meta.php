@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\InPost\Shared;
 
-readonly class Meta implements \JsonSerializable
+readonly class Meta
 {
     public function __construct(
         public int $count,
@@ -13,7 +13,7 @@ readonly class Meta implements \JsonSerializable
         public int $totalPages,
     ) {}
 
-    public function jsonSerialize(): array
+    public function toArray(): array
     {
         return [
             'count' => $this->count,

@@ -30,6 +30,21 @@ class PointTest extends TestCase
     }
 
     #[Test]
+    public function shouldCorrectlyConvertPointObjectToArray(): void
+    {
+        // Given
+        $name = 'PLW01N';
+        $address = 'Szarotkowa 21';
+        $point = new Point($name, $address);
+
+        // When
+        $resultArray = $point->toArray();
+
+        // Then
+        $this->assertEquals(['name' => $name, 'address' => $address], $resultArray);
+    }
+
+    #[Test]
     #[DataProvider('nullInputProvider')]
     public function requiredFieldsShouldNotAcceptNullValues(string|null $name, string|null $address): void
     {
